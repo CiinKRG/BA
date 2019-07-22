@@ -30,5 +30,3 @@ Por default se ejecuta el servicio en el puerto 5000
  * Debugger is active!
  * Debugger PIN: 137-911-863
 ```
-
-# BA
