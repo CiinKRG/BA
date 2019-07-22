@@ -1,0 +1,9 @@
+FROM python:3.7-stretch
+WORKDIR /api
+COPY ./secrets/ /secrets/
+ENV GOOGLE_APPLICATION_CREDENTIALS=/secrets/credentials_project.json
+RUN apt-get update
+RUN apt-get install tesseract-ocr -y
+RUN apt-get install libtesseract-dev -y
+CMD cd /api && GIT_SSH_COMMAND='ssh -i /secrets/bazteca_kubernetes_key -o "StrictHostKeyChecking no"' git clone git@github.com:espacioAntonio/bazteca_ocr.git && pwd && cd /api/bazteca_ocr/venv/servicio && pip install -r requirements.txt && gunicorn --bind 0.0.0.0:5000 app:app
+EXPOSE 5000

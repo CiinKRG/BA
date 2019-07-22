@@ -1,0 +1,42 @@
+<!doctype html>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}{% endblock %} OCR</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='materialize/css/materialize.min.css') }}">
+</head>
+<body>
+  <section class="content">
+    <header>
+      {% block header %}{% endblock %}
+    </header>
+
+    <div class="valign-wrapper row" style="height:100%">
+      <div class="col card s10 pull-s1 m6 pull-m3 l4 pull-l4">
+          <h3 class="center grey-text">Contenido Identificado</h3>
+          <img class="responsive-img" src="{{ url_for('uploaded_file', filename=context.src) }}">
+          <table class="striped">
+            <thead>
+              <tr>
+                  <th>Texto</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              {% for key, value in context.text.items() %}
+                <tr>
+                  <th> {{ key }} </th>
+                  <td>{{ value }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <a class="btn waves-effect waves-light right" onclick="window.history.back();">Regresar</a>
+      </div>
+    </div>
+    {% block content %}{% endblock %}
+  </section>
+  <script src="{{ url_for('static', filename='materialize/js/materialize.min.js') }}"></script>
+</body>
+</html>
+

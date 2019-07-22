@@ -1,0 +1,38 @@
+<!doctype html>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}{% endblock %} OCR</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='materialize/css/materialize.min.css') }}">
+</head>
+<body>
+  <section class="content">
+    <header>
+      {% block header %}{% endblock %}
+    </header>
+
+    <div class="valign-wrapper row" style="height:100%">
+      <div class="col card s10 pull-s1 m6 pull-m3 l4 pull-l4">
+          <h3 class="center grey-text">Subir IFE/INE</h3>
+          <form method=post enctype=multipart/form-data>
+            <p>
+              <div class="file-field input-field">
+                <div class="btn grey">
+                  <span>Imagen</span>
+                  <input type=file name=file>
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text">
+                </div>
+              </div>
+              <input type=submit value=Enviar  class="btn grey">
+            </p>
+          </form>
+      </div>
+    </div>
+    {% block content %}{% endblock %}
+  </section>
+  <script src="{{ url_for('static', filename='materialize/js/materialize.min.js') }}"></script>
+</body>
+</html>
+

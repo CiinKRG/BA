@@ -1,0 +1,13 @@
+Flask
+gunicorn
+google-cloud-vision
+pillow
+requests
+google-cloud-storage
+google-api-python-client
+oauth2client
+imutils
+numpy
+opencv-python
+nltk
+pytesseract
