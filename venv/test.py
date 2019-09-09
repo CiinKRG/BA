@@ -10,11 +10,8 @@ import nltk
 from nltk.stem.snowball import EnglishStemmer
 from oauth2client.client import GoogleCredentials
 
-
-
 DISCOVERY_URL = 'https://vision.googleapis.com/$discovery/rest?version=1'  # noqa
 BATCH_SIZE = 1
-
 
 class VisionApi:
     def __init__(self, api_discovery_file='richit-d0526bca68ad.json'):
@@ -64,7 +61,7 @@ class VisionApi:
                     continue
                 
                 #if 'fullTextAnnotation' in response:
-                #    text_response[filename] = response['fullTextAnnotation']
+                #text_response[filename] = response['fullTextAnnotation']
 
                 if 'textAnnotations' in response:
                     text_response[filename] = response['textAnnotations']
@@ -77,7 +74,6 @@ class VisionApi:
         except KeyError as e2:
             print("Key error: %s" % e2)
 
-
 def distance(p0, p1): 
     return math.sqrt((p0[0] - p1[0])**2 + (p0[1] - p1[1])**2) 
 
@@ -88,7 +84,6 @@ def cleaner(dirtyDict):
         dirtyDict["sexo"] = dirtyDict["sexo"].replace("SEXO", "").strip()
         dirtyDict["anio_registro"] = dirtyDict["anio_registro"].strip()
     return dirtyDict
-
 
 def parseData(ineData):        
     lstName = []
@@ -149,12 +144,10 @@ def parseData(ineData):
             m = re.search('(?:0[1-9]\d{3}|[1-4]\d{4}|5[0-2]\d{3})',d['description'])
             if m:
                 dictData["cp"] = m.group(0)
+    dictData =cleaner(dictData)
 
-
-    return dictData = cleaner(dictData)
+    return dictData
     
-       
-
 #with open(os.path.join(os.path.dirname(__file__),'resulter.txt'), 'a') as the_file:
 #the_file.write('{0} - {1} - ({2},{3})~ \n'.format(cord, d['description'].encode('utf-8'), str(xc),str(yc)))
 
@@ -177,8 +170,3 @@ for k, v in contentOCR.items():
     print(parseData(v))
 
 print("Done!!")
-
-
-
-
-

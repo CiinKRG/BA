@@ -12,10 +12,12 @@ from engines import opencv
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(dir_path)
 
-
+#Envia las imagenes que se cargan a la carpeta /resources
 UPLOAD_FOLDER = os.path.join(dir_path, '../resources/')
+#Envia las imagenes procesadas a la carpeta /processing
 FINAL_FOLDER = dir_path + "/../processing/"
 print(UPLOAD_FOLDER)
+#Extensiones de imagenes que permite
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 app = Flask(__name__)
@@ -25,6 +27,7 @@ app.secret_key = 'veey3V5Vy6s45s7v57segvr'
 app.config['SESSION_TYPE'] = 'filesystem'
 
 
+#Revisa que la imagen tenga una extension permitida
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -33,13 +36,16 @@ def allowed_file(filename):
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
+        #Comprueba si se cargo el archivo
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
         file = request.files['file']
+        #Comprueba si no se selecciono el archivo
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
+        #Carga el archivo en la carpeta de carga
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             new_filename = str(uuid.uuid1()) + "_" + filename
@@ -56,21 +62,22 @@ def upload_file():
                 'text': image_text,
                 'src': new_filename
             }
+            #Devuelve la pagina HTML de respuesta
             return render_template("show_response.html", context=context)
+    #Devuelve la pagina HTML home
     return render_template("base.html")
 
-
+#Devuelve la imagen procesada
 @app.route('/get/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['FINAL_FOLDER'],
                                filename)
 
-
+#Devuelve la imagen sin procesar
 @app.route('/get_source/<filename>')
 def uploaded_file_source(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],
                                filename)
-
 
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1')

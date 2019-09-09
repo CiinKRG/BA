@@ -9,10 +9,11 @@ from googleapiclient import discovery
 from googleapiclient import errors
 from oauth2client.client import GoogleCredentials
 
-
+#Instancia un cliente
 client = vision.ImageAnnotatorClient()
 DISCOVERY_URL = 'https://vision.googleapis.com/$discovery/rest?version=1'  # noqa
 
+#Recorta la imagen
 def trims(im):
     bg = Image.new(im.mode, im.size, im.getpixel((1, 1)))
     diff = ImageChops.difference(im, bg)
@@ -21,18 +22,18 @@ def trims(im):
     if bbox:
         return im.crop(bbox)
 
-
+#Convierte la imagen a blanco y negro y devuelve el path de destino
 def process(_path, filename, _target_path):
     im = Image.open(_path + filename)
     # other = trims(im)
     other = trims(im)
-#    other = other.convert('L')
+    #other = other.convert('L')
     other = other.convert('1', dither=Image.NONE)
     _dest_path = os.path.join(_target_path, filename)
     other.save(_dest_path)
     return _dest_path
 
-
+#Extrae el texto de la imagen en un JSON
 def get_text(img, backup_response=None):
     image = vision.types.Image(content=img)
     response = client.text_detection(image=image)
@@ -44,8 +45,7 @@ def get_text(img, backup_response=None):
     image_text = list(map(lambda x: x.description, response.text_annotations))
     return image_text
 
-
-
+#Extrae texto (Reconocimiento optico de caracteres)
 def get_ocr(img, filename):
     num_retries = 3
     max_results=6
@@ -66,7 +66,6 @@ def get_ocr(img, filename):
             })
     
     request = service.images().annotate(body={'requests': batch_request})
-
     
     try:
         responses = request.execute(num_retries=num_retries)    
@@ -79,7 +78,7 @@ def get_ocr(img, filename):
                         print("API Error for %s: %s" % (img,responses['error']['message']if 'message' in responses['error'] else ''))
         
         #if 'fullTextAnnotation' in response:
-        #    text_response[filename] = response['fullTextAnnotation']
+        #text_response[filename] = response['fullTextAnnotation']
 
                 if 'textAnnotations' in responses["responses"][0]:
                         print("annotations")
@@ -93,7 +92,7 @@ def get_ocr(img, filename):
     except KeyError as e2:
         print("Key error: %s" % e2)
 
-
+#Analiza la imagen pieza por pieza y extrae los campos
 def parseData(ineData, filename):       
     lstName = []
     lstAddr = []
@@ -155,11 +154,10 @@ def parseData(ineData, filename):
             m = re.search('(?:0[1-9]\d{3}|[1-4]\d{4}|5[0-2]\d{3})',d['description'])
             if m:
                 dictData["cp"] = m.group(0)
-
-
+            
     return cleaner(dictData)
 
-
+#Limpia el diccionario que se extrae de la imagen
 def cleaner(dirtyDict):
     if dirtyDict:
         dirtyDict["nombre"] = dirtyDict["nombre"].replace("NOMBRE", "").strip()
@@ -168,7 +166,7 @@ def cleaner(dirtyDict):
         dirtyDict["anio_registro"] = dirtyDict["anio_registro"].strip()
     return dirtyDict
 
-
+#Extrae la informacion
 def get_data(img, filename, backup_response=None):
         return parseData(get_ocr(img,filename), filename)
         
