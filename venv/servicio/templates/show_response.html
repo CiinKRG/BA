@@ -4,6 +4,7 @@
 <head>
   <title>{% block title %}{% endblock %} OCR</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='materialize/css/materialize.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
   <section class="content">
@@ -12,9 +13,9 @@
     </header>
 
     <div class="valign-wrapper row" style="height:100%">
-      <div class="col card s10 pull-s1 m6 pull-m3 l4 pull-l4">
-          <h3 class="center grey-text">Contenido Identificado</h3>
-          <img class="responsive-img" src="{{ url_for('uploaded_file', filename=context.src) }}">
+      <div class="col card s1 pull-s5 m6 pull-m3 l4 pull-l4 hoverable" style="margin-top: 80px; padding: 0 30px; border-radius: 6px;">
+          <h3 class="center" style="margin-top:40px;">Contenido Identificado</h3>
+          <img class="responsive-img" style="margin: 20px 0 20px 0;  border-radius: 16px;" src="{{ url_for('uploaded_file', filename=context.src) }}">
           <table class="striped">
             <thead>
               <tr>
@@ -35,8 +36,7 @@
               {% endfor %}
             </tbody>
           </table>
-
-          <a class="btn waves-effect waves-light right" onclick="window.history.back();">Regresar</a>
+          <a class="btn blue waves-effect waves-light right" style="margin: 40px 0 40px 0;" onclick="window.history.back();">Regresar</a>
       </div>
     </div>
     {% block content %}{% endblock %}
@@ -44,4 +44,3 @@
   <script src="{{ url_for('static', filename='materialize/js/materialize.min.js') }}"></script>
 </body>
 </html>
-
