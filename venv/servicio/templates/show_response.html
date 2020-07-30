@@ -20,6 +20,10 @@
               <tr>
                   <th>Texto</th>
               </tr>
+              <tr>
+                <th> Total time: </th>
+                <td> {{ context._time }} </td>
+              </tr>
             </thead>
             <tbody>
 
@@ -31,6 +35,7 @@
               {% endfor %}
             </tbody>
           </table>
+
           <a class="btn waves-effect waves-light right" onclick="window.history.back();">Regresar</a>
       </div>
     </div>

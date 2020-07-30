@@ -1,6 +1,7 @@
 import os
 import io
 import sys
+import time
 import uuid
 from flask import Flask, request, redirect, flash, render_template
 from flask import send_from_directory
@@ -36,6 +37,7 @@ def allowed_file(filename):
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
+        start_time = time.time()
         #Comprueba si se cargo el archivo
         if 'file' not in request.files:
             flash('No file part')
@@ -60,7 +62,8 @@ def upload_file():
             image_text = datax
             context = {
                 'text': image_text,
-                'src': new_filename
+                'src': new_filename,
+                '_time': f"{time.time() - start_time:.4f} s"
             }
             #Devuelve la pagina HTML de respuesta
             return render_template("show_response.html", context=context)
