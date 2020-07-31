@@ -59,10 +59,12 @@ def upload_file():
             #datax = opencv.matchTemplate(new_file, new_filename)
             datax = opencv.process_content(new_file, new_filename)
            
+            _raw = datax.pop("raw", "")
             image_text = datax
             context = {
                 'text': image_text,
                 'src': new_filename,
+                'raw': _raw,
                 '_time': f"{time.time() - start_time:.4f} s"
             }
             #Devuelve la pagina HTML de respuesta

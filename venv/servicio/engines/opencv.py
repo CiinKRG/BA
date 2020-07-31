@@ -673,7 +673,7 @@ def extractInfo_Reverse(pathimage,filename):
             print(pathimage)
             resp = detect_text_singlefile(pathimage, filename)
             dta = resp["textAnnotations"]
-            
+            data["raw"] = dta
             #Si extrae texto lo hace por linea
             if dta:
                     valores = dta[0]['description']
@@ -694,6 +694,7 @@ def extractInfo_Reverse(pathimage,filename):
             #Busca al menor 5 caracteres y los regresa
             if resp and 'textAnnotations' in resp:
                     res = resp['textAnnotations']
+                    data["raw"] = res
 
                     for d in res:
                             decr = d['description']
@@ -723,7 +724,7 @@ def process_content(pathImg,imgName):
             content = image_file.read()
             dt = get_ocr(content, imgName)
             typeId = 'IFE - C'
-            datax = {}
+            datax = {"raw": dt}
 
             if 'all_' + imgName in dt:
                 print("enter")
