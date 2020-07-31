@@ -58,7 +58,6 @@ def upload_file():
             #in changes
             #datax = opencv.matchTemplate(new_file, new_filename)
             datax = opencv.process_content(new_file, new_filename)
-           
             _raw = datax.pop("raw", "")
             image_text = datax
             context = {

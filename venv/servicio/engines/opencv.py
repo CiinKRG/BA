@@ -724,7 +724,7 @@ def process_content(pathImg,imgName):
             content = image_file.read()
             dt = get_ocr(content, imgName)
             typeId = 'IFE - C'
-            datax = {"raw": dt}
+            datax = {}
 
             if 'all_' + imgName in dt:
                 print("enter")
@@ -751,6 +751,7 @@ def process_content(pathImg,imgName):
             else:
                 datax = matchTemplate(pathImg, imgName, dt)
 
+            datax["raw"] = dt
             datax['tipo'] = typeId
 
     #Si es el reverso manda llamar la funcion que extra la info

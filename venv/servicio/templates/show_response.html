@@ -34,12 +34,9 @@
                   <td>{{ value }}</td>
                 </tr>
               {% endfor %}
-              <tr>
-                <th> Raw data: </th>
-                <td> {{ context.raw }} </td>
-              </tr>
             </tbody>
           </table>
+          <a class="btn blue waves-effect waves-light left" style="margin: 40px 0 40px 0;" onclick='window.open("data:text/json," + encodeURIComponent(JSON.stringify(myObj)),"_blank");'>Raw Data</a>
           <a class="btn blue waves-effect waves-light right" style="margin: 40px 0 40px 0;" onclick="window.history.back();">Regresar</a>
       </div>
     </div>
@@ -47,4 +44,9 @@
   </section>
   <script src="{{ url_for('static', filename='materialize/js/materialize.min.js') }}"></script>
 </body>
+
+<script>
+	myObj = {{ context.raw|tojson|safe }};
+</script>
+
 </html>
