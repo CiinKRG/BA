@@ -71,6 +71,29 @@ def upload_file():
     #Devuelve la pagina HTML home
     return render_template("base.html")
 
+@app.route('/plantillador', methods=['GET', 'POST'])
+def plantillador():
+    if request.method == 'POST':
+        print(f"REQUEST: {request}")
+        #Comprueba si se cargo el archivo
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        #Comprueba si no se selecciono el archivo
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        #Carga el archivo en la carpeta de carga
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            # new_filename = str(uuid.uuid1()) + "_" + filename
+            new_filename = "tmp.img"
+            file.save(os.path.join("static/plantillador", new_filename))
+        print(f"New filename: {filename}")
+        return render_template("plantillador.html", _basedir = "static", _file = os.path.join("plantillador", new_filename))
+    return render_template("plantillador.html", _basedir = "static", _file = "plantillador/exmaple.jpg")
+
 #Devuelve la imagen procesada
 @app.route('/get/<filename>')
 def uploaded_file(filename):

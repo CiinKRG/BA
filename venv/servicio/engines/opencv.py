@@ -459,7 +459,7 @@ def cleaner(dirtyDict):
         #Extraee colonia, poblacion y cp
         col = re.search("COL[\s?|\.?]([\w*|\W*]){1,}", dirtyDict["direccion"], re.I) 
         if col:
-            dirtyDict["colonia"] = col.group(0).replace("COL","").replace(dirtyDict["poblacion"],"").replace(dirtyDict["cp"],"").strip()
+            dirtyDict["colonia"] = col.group(0).replace("COL","").replace(dirtyDict.get("poblacion", ""),"").replace(dirtyDict.get("cp", ""),"").strip()
          
         dirtyDict["sexo"] = ' '.join(dirtyDict["sexo"]).replace("SEXO", "").strip()
         dirtyDict["registro_elector"] = ' '.join(dirtyDict["registro_elector"]).replace("ELECTOR","").strip()

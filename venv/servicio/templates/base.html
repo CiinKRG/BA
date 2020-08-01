@@ -36,7 +36,7 @@
     <!--Texto inicial-->
     <div class="row center-align" style="margin-top:80px;">
       <h2>Bienvenido</h2>
-      <h6>Extracción de datos de las credenciales de elector</h6>
+      <h6>Solución para la clasificación automática de documentos de identificación</h6>
     </div>
     <!--Tarjeta-->
     <div class="row">
@@ -44,7 +44,7 @@
         <div class="card-panel hoverable" style="margin-top:20px;">
           <div class="row">
             <div class="row center-align" style="padding: 0 12px;">
-              <h5>Selecciona la imagen de la IFE o INE</h5>
+              <h5>Selecciona la imagen</h5>
             </div>
             <form method=post enctype=multipart/form-data>
                 <div class="file-field input-field" style="padding: 0 12px;">
@@ -58,6 +58,9 @@
                 </div>
                 <div class="col s12 center" style="padding-top:22px;">
                   <input type=submit value=Enviar  class="col s12 btn green hoverable">
+                </div>
+                <div class="col s12 center" style="padding-top:22px;">
+                  <input type=submit formaction="/plantillador" value=Plantillador  class="col s12 btn green hoverable">
                 </div>
             </form>
           </div>
