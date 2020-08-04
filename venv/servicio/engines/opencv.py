@@ -302,7 +302,7 @@ def process(_path, filename, _target_path):
     #Guarda la imagen
     cv2.imwrite(_dest_path, image)
     #Espera indefinidamente un golpe de alguna tecla
-    cv2.waitKey(0)
+    # cv2.waitKey(0)
     return _dest_path
 
 def get_ocr(img, filename):
