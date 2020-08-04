@@ -37,7 +37,7 @@ def allowed_file(filename):
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
-        start_time = time.time()
+        s_loadtime = time.time()
         #Comprueba si se cargo el archivo
         if 'file' not in request.files:
             flash('No file part')
@@ -52,19 +52,23 @@ def upload_file():
             filename = secure_filename(file.filename)
             new_filename = str(uuid.uuid1()) + "_" + filename
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], new_filename))
+            _loadtime = time.time() -s_loadtime
+            start_time = time.time()
             new_file = opencv.process(app.config['UPLOAD_FOLDER'],
                                       new_filename,
                                       app.config['FINAL_FOLDER'])
             #in changes
             #datax = opencv.matchTemplate(new_file, new_filename)
             datax = opencv.process_content(new_file, new_filename)
+            _time = time.time() - start_time
             _raw = datax.pop("raw", "")
             image_text = datax
             context = {
                 'text': image_text,
                 'src': new_filename,
                 'raw': _raw,
-                '_time': f"{time.time() - start_time:.4f} s"
+                '_time': f"{_time:.4f} s",
+                '_loadtime': f"{_loadtime:.4f} s"
             }
             #Devuelve la pagina HTML de respuesta
             return render_template("show_response.html", context=context)
@@ -73,6 +77,7 @@ def upload_file():
 
 @app.route('/plantillador', methods=['GET', 'POST'])
 def plantillador():
+    """
     if request.method == 'POST':
         print(f"REQUEST: {request}")
         #Comprueba si se cargo el archivo
@@ -92,6 +97,7 @@ def plantillador():
             file.save(os.path.join("static/plantillador", new_filename))
         print(f"New filename: {filename}")
         return render_template("plantillador.html", _basedir = "static", _file = os.path.join("plantillador", new_filename))
+    """
     return render_template("plantillador.html", _basedir = "static", _file = "plantillador/exmaple.jpg")
 
 #Devuelve la imagen procesada
